@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  kind: one
+  distinctive: MyString
+  shipping_company: one
+
+two:
+  kind: two
+  distinctive: MyString
+  shipping_company: two

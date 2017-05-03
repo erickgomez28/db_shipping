@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170502202806) do
+ActiveRecord::Schema.define(version: 20170503135451) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,20 @@ ActiveRecord::Schema.define(version: 20170502202806) do
     t.index ["contact_id"], name: "index_addresses_on_contact_id", using: :btree
   end
 
+  create_table "consignees", force: :cascade do |t|
+    t.string   "dni"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string   "name"
+  end
+
+  create_table "consignees_nvoccs", id: false, force: :cascade do |t|
+    t.integer "consignee_id", null: false
+    t.integer "nvocc_id",     null: false
+    t.index ["consignee_id", "nvocc_id"], name: "index_consignees_nvoccs_on_consignee_id_and_nvocc_id", using: :btree
+    t.index ["nvocc_id", "consignee_id"], name: "index_consignees_nvoccs_on_nvocc_id_and_consignee_id", using: :btree
+  end
+
   create_table "contacts", force: :cascade do |t|
     t.string   "contactable_type"
     t.integer  "contactable_id"
@@ -31,12 +45,35 @@ ActiveRecord::Schema.define(version: 20170502202806) do
     t.index ["contactable_type", "contactable_id"], name: "index_contacts_on_contactable_type_and_contactable_id", using: :btree
   end
 
+  create_table "container_kinds", force: :cascade do |t|
+    t.string   "kind"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "containers", force: :cascade do |t|
+    t.integer  "kind_id"
+    t.string   "distinctive"
+    t.integer  "shipping_company_id"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+    t.index ["kind_id"], name: "index_containers_on_kind_id", using: :btree
+    t.index ["shipping_company_id"], name: "index_containers_on_shipping_company_id", using: :btree
+  end
+
   create_table "emails", force: :cascade do |t|
     t.string   "email"
     t.integer  "contact_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["contact_id"], name: "index_emails_on_contact_id", using: :btree
+  end
+
+  create_table "nvoccs", force: :cascade do |t|
+    t.string   "name"
+    t.string   "dni"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "phones", force: :cascade do |t|
@@ -63,6 +100,7 @@ ActiveRecord::Schema.define(version: 20170502202806) do
   end
 
   add_foreign_key "addresses", "contacts"
+  add_foreign_key "containers", "shipping_companies"
   add_foreign_key "emails", "contacts"
   add_foreign_key "phones", "contacts"
   add_foreign_key "web_sites", "contacts"
