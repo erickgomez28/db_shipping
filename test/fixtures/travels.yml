@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  code: MyString
+  docking_date: 2017-05-03
+  origen: one
+  destination: one
+
+two:
+  code: MyString
+  docking_date: 2017-05-03
+  origen: two
+  destination: two
