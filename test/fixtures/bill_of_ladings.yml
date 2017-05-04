@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  code: MyString
+  travel: one
+  consignee: one
+  consolidable: one
+
+two:
+  code: MyString
+  travel: two
+  consignee: two
+  consolidable: two

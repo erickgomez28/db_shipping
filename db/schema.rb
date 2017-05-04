@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170503143200) do
+ActiveRecord::Schema.define(version: 20170504022844) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,20 @@ ActiveRecord::Schema.define(version: 20170503143200) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["contact_id"], name: "index_addresses_on_contact_id", using: :btree
+  end
+
+  create_table "bill_of_ladings", force: :cascade do |t|
+    t.string   "code"
+    t.integer  "travel_id"
+    t.string   "consigneable_type"
+    t.integer  "consigneable_id"
+    t.string   "consolidable_type"
+    t.integer  "consolidable_id"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.index ["consigneable_type", "consigneable_id"], name: "index_bill_of_ladings_on_consigneable_type_and_consigneable_id", using: :btree
+    t.index ["consolidable_type", "consolidable_id"], name: "index_bill_of_ladings_on_consolidable_type_and_consolidable_id", using: :btree
+    t.index ["travel_id"], name: "index_bill_of_ladings_on_travel_id", using: :btree
   end
 
   create_table "consignees", force: :cascade do |t|
@@ -127,6 +141,7 @@ ActiveRecord::Schema.define(version: 20170503143200) do
   end
 
   add_foreign_key "addresses", "contacts"
+  add_foreign_key "bill_of_ladings", "travels"
   add_foreign_key "containers", "shipping_companies"
   add_foreign_key "emails", "contacts"
   add_foreign_key "phones", "contacts"
