@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170504022844) do
+ActiveRecord::Schema.define(version: 20170504124637) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -71,8 +71,10 @@ ActiveRecord::Schema.define(version: 20170504022844) do
     t.integer  "shipping_company_id"
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
+    t.integer  "vessel_id"
     t.index ["kind_id"], name: "index_containers_on_kind_id", using: :btree
     t.index ["shipping_company_id"], name: "index_containers_on_shipping_company_id", using: :btree
+    t.index ["vessel_id"], name: "index_containers_on_vessel_id", using: :btree
   end
 
   create_table "countries", force: :cascade do |t|
@@ -128,8 +130,19 @@ ActiveRecord::Schema.define(version: 20170504022844) do
     t.integer  "destination_id"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
+    t.integer  "vessel_id"
     t.index ["destination_id"], name: "index_travels_on_destination_id", using: :btree
     t.index ["origen_id"], name: "index_travels_on_origen_id", using: :btree
+    t.index ["vessel_id"], name: "index_travels_on_vessel_id", using: :btree
+  end
+
+  create_table "vessels", force: :cascade do |t|
+    t.string   "name"
+    t.string   "container_quota"
+    t.integer  "shipping_company_id"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+    t.index ["shipping_company_id"], name: "index_vessels_on_shipping_company_id", using: :btree
   end
 
   create_table "web_sites", force: :cascade do |t|
@@ -143,8 +156,11 @@ ActiveRecord::Schema.define(version: 20170504022844) do
   add_foreign_key "addresses", "contacts"
   add_foreign_key "bill_of_ladings", "travels"
   add_foreign_key "containers", "shipping_companies"
+  add_foreign_key "containers", "vessels"
   add_foreign_key "emails", "contacts"
   add_foreign_key "phones", "contacts"
   add_foreign_key "sea_ports", "countries"
+  add_foreign_key "travels", "vessels"
+  add_foreign_key "vessels", "shipping_companies"
   add_foreign_key "web_sites", "contacts"
 end

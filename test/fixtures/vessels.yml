@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  container_quota: MyString
+  shipping_company: one
+  travel: one
+
+two:
+  name: MyString
+  container_quota: MyString
+  shipping_company: two
+  travel: two
