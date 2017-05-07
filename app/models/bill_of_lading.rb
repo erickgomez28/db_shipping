@@ -4,5 +4,6 @@ class BillOfLading < ApplicationRecord
   belongs_to :consolidable, :polymorphic => :true
 
   has_one :vessel, :through => :travel
-  has_many :containers, through => :vessel
+  has_many :containers, :through => :vessel
+
 end

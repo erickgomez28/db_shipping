@@ -1,3 +1,3 @@
 class ContainerKind < ApplicationRecord
-	has_many :containers, foreign_key: 'kind_id'
+  has_many :containers, class_name: 'Container', :foreign_key => 'kind_id'
 end

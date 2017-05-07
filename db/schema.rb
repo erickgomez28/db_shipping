@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170504124637) do
+ActiveRecord::Schema.define(version: 20170506174007) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -72,6 +72,8 @@ ActiveRecord::Schema.define(version: 20170504124637) do
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
     t.integer  "vessel_id"
+    t.integer  "goods_id"
+    t.index ["goods_id"], name: "index_containers_on_goods_id", using: :btree
     t.index ["kind_id"], name: "index_containers_on_kind_id", using: :btree
     t.index ["shipping_company_id"], name: "index_containers_on_shipping_company_id", using: :btree
     t.index ["vessel_id"], name: "index_containers_on_vessel_id", using: :btree
@@ -82,6 +84,14 @@ ActiveRecord::Schema.define(version: 20170504124637) do
     t.string   "code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "description_of_goods", force: :cascade do |t|
+    t.string   "details"
+    t.integer  "consignee_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.index ["consignee_id"], name: "index_description_of_goods_on_consignee_id", using: :btree
   end
 
   create_table "emails", force: :cascade do |t|
@@ -157,6 +167,7 @@ ActiveRecord::Schema.define(version: 20170504124637) do
   add_foreign_key "bill_of_ladings", "travels"
   add_foreign_key "containers", "shipping_companies"
   add_foreign_key "containers", "vessels"
+  add_foreign_key "description_of_goods", "consignees"
   add_foreign_key "emails", "contacts"
   add_foreign_key "phones", "contacts"
   add_foreign_key "sea_ports", "countries"
